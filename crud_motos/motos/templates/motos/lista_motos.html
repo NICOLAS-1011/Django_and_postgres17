@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Listado de Motos</h1>
+    <a href="{% url 'crear_moto' %}">Agregar nueva moto</a>
+    <ul>
+        {% for moto in motos %}
+        <li>
+            {{ moto }} |
+            <a href="{% url 'editar_moto' moto.id %}">Editar</a> |
+            <a href="{% url 'eliminar_moto' moto.id %}">Eliminar</a>
+        </li>
+        {% endfor %}
+    </ul>
+
+</body>
+</html>
