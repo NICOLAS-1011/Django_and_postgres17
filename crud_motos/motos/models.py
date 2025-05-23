@@ -56,6 +56,7 @@ class Venta(models.Model):
     moto = models.ForeignKey(Moto, on_delete=models.CASCADE)
     forma_pago = models.CharField(max_length=50, blank=True, null=True)
     valor_total = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+    placa =models.CharField(max_length=20)
 
     def __str__(self):
         return f"Venta #{self.id} - {self.fecha_venta}"

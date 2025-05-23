@@ -7,6 +7,7 @@
         <th>Empleado</th>
         <th>Moto</th>
         <th>Valor</th>
+        <th>Placa</th>
         <th>Acciones</th>
     </tr>
     {% for venta in ventas %}
@@ -16,6 +17,7 @@
         <td>{{ venta.empleado }}</td>
         <td>{{ venta.moto }}</td>
         <td>${{ venta.valor_total }}</td>
+        <td>${{ venta.placa }}</td>
         <td>
             <a href="{% url 'editar_venta' venta.pk %}">Editar</a>
             <a href="{% url 'eliminar_venta' venta.pk %}">Eliminar</a>
