@@ -1,4 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.db import connection, DatabaseError
+from django.contrib import messages
 from .models import Moto
 from .models import Proveedor
 from .models import Cliente
@@ -103,16 +105,16 @@ def crear_cliente(request):
     return render(request, 'cliente/crear.html', {'form': form})
 
 # Editar
-def editar_cliente(request, id):
-    cliente = Cliente.objects.get(id=id)
-    if request.method == 'POST':
-        form = ClienteForm(request.POST, instance=cliente)
-        if form.is_valid():
-            form.save()
-            return redirect('listar_clientes')
-    else:
-        form = ClienteForm(instance=cliente)
-    return render(request, 'cliente/editar.html', {'form': form})
+#def editar_cliente(request, id):
+#    cliente = Cliente.objects.get(id=id)
+#    if request.method == 'POST':
+#        form = ClienteForm(request.POST, instance=cliente)
+#        if form.is_valid():
+#            form.save()
+#            return redirect('listar_clientes')
+#    else:
+#        form = ClienteForm(instance=cliente)
+#    return render(request, 'cliente/editar.html', {'form': form})
 
 # Eliminar
 def eliminar_cliente(request, id):
@@ -162,15 +164,15 @@ def lista_ventas(request):
     ventas = Venta.objects.all()
     return render(request, 'venta/lista.html', {'ventas': ventas})
 
-def crear_venta(request):
-    if request.method == 'POST':
-        form = VentaForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('lista_ventas')
-    else:
-        form = VentaForm()
-    return render(request, 'venta/formulario.html', {'form': form})
+#def crear_venta(request):
+#    if request.method == 'POST':
+#        form = VentaForm(request.POST)
+#        if form.is_valid():
+#            form.save()
+#            return redirect('lista_ventas')
+#    else:
+#        form = VentaForm()
+#    return render(request, 'venta/formulario.html', {'form': form})
 
 def editar_venta(request, pk):
     venta = get_object_or_404(Venta, pk=pk)
@@ -183,9 +185,72 @@ def editar_venta(request, pk):
         form = VentaForm(instance=venta)
     return render(request, 'venta/formulario.html', {'form': form})
 
-def eliminar_venta(request, pk):
-    venta = get_object_or_404(Venta, pk=pk)
+#def eliminar_venta(request, pk):
+#    venta = get_object_or_404(Venta, pk=pk)
+#    if request.method == 'POST':
+#        venta.delete()
+#        return redirect('lista_ventas')
+#    return render(request, 'venta/confirmar_eliminar.html', {'venta': venta})
+
+
+#PROCEDIMIENTOS
+
+def registrar_venta(request):
     if request.method == 'POST':
-        venta.delete()
+        fecha_venta = request.POST.get('fecha_venta')
+        id_cliente = request.POST.get('cliente')
+        id_empleado = request.POST.get('empleado')
+        id_moto = request.POST.get('moto')
+        forma_pago = request.POST.get('forma_pago')
+        valor_total = request.POST.get('valor_total')
+
+        try:
+            with connection.cursor() as cursor:
+                cursor.execute(
+                    "CALL registrar_venta(%s, %s, %s, %s, %s, %s)",
+                    [fecha_venta, id_cliente, id_empleado, id_moto, forma_pago, valor_total]
+                )
+            return redirect('lista_ventas')
+        except DatabaseError as e:
+            error_msg = str(e)
+            clientes = Cliente.objects.all()
+            empleados = Empleado.objects.all()
+            motos = Moto.objects.filter(estado__iexact='disponible')
+            return render(request, 'ventas/registrar_venta.html', {
+                'clientes': clientes,
+                'empleados': empleados,
+                'motos': motos,
+                'error': error_msg
+            })
+    
+    else:  # GET
+        clientes = Cliente.objects.all()
+        empleados = Empleado.objects.all()
+        motos = Moto.objects.filter(estado__iexact='disponible')  # solo motos disponibles
+        return render(request, 'venta/registrar_venta.html', {
+            'clientes': clientes,
+            'empleados': empleados,
+            'motos': motos
+        })
+
+def eliminar_venta(request, pk):
+    try:
+        with connection.cursor() as cursor:
+            cursor.execute("CALL eliminar_venta(%s)", [pk])
+        return redirect('venta/confirmar_eliminar.html')
+    except DatabaseError as e:
+        print(f"Error al eliminar la venta con ID {pk}: {e}")
         return redirect('lista_ventas')
-    return render(request, 'venta/confirmar_eliminar.html', {'venta': venta})
+
+
+def actualizar_cliente(cliente_id, nombre, apellido, cedula, telefono, correo, direccion):
+        
+    try:    
+        with connection.cursor() as cursor:
+            cursor.execute("""
+                CALL actualizar_cliente(%s, %s, %s, %s, %s, %s, %s);
+            """, [cliente_id, nombre, apellido, cedula, telefono, correo, direccion])
+    except DatabaseError as e:
+            print("Error al ejecutar procedimiento:", e)
+
+

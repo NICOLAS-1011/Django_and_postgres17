@@ -14,7 +14,8 @@ urlpatterns = [
 
     path('clientes/', views.listar_clientes, name='listar_clientes'),
     path('clientes/crear/', views.crear_cliente, name='crear_cliente'),
-    path('clientes/editar/<int:id>/', views.editar_cliente, name='editar_cliente'),
+    #path('clientes/editar/<int:id>/', views.editar_cliente, name='editar_cliente'),
+    path('clientes/editar/<int:id>/', views.actualizar_cliente, name='editar_cliente'),
     path('clientes/eliminar/<int:id>/', views.eliminar_cliente, name='eliminar_cliente'),
 
     path('empleados/', views.lista_empleado, name='lista_empleado'),
@@ -23,8 +24,10 @@ urlpatterns = [
     path('empleados/eliminar/<int:pk>/', views.eliminar_empleado, name='eliminar_empleado'),
 
     path('ventas/', views.lista_ventas, name='lista_ventas'),
-    path('ventas/crear/', views.crear_venta, name='crear_venta'),
+    #path('ventas/crear/', views.crear_venta, name='crear_venta'),
+    path('ventas/crear/', views.registrar_venta, name='crear_venta'),
     path('ventas/editar/<int:pk>/', views.editar_venta, name='editar_venta'),
+    #path('ventas/eliminar/<int:pk>/', views.eliminar_venta, name='eliminar_venta'),
     path('ventas/eliminar/<int:pk>/', views.eliminar_venta, name='eliminar_venta'),
 
 

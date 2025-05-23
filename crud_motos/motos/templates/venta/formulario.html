@@ -3,5 +3,12 @@
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">Guardar</button>
+    
+    {% if messages %}
+        {% for message in messages %}
+        <div class="alert">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+  
 </form>
 <a href="{% url 'lista_ventas' %}">Volver</a>

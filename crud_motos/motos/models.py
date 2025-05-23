@@ -59,3 +59,17 @@ class Venta(models.Model):
 
     def __str__(self):
         return f"Venta #{self.id} - {self.fecha_venta}"
+
+
+class AuditoriaVenta(models.Model):
+    venta_id = models.IntegerField()
+    fecha_venta = models.DateField()
+    cliente_id = models.IntegerField()
+    empleado_id = models.IntegerField()
+    moto_id = models.IntegerField()
+    forma_pago = models.CharField(max_length=50)
+    valor_total = models.DecimalField(max_digits=10, decimal_places=2)
+    fecha_eliminacion = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Auditoría Venta ID {self.venta_id} eliminada el {self.fecha_eliminacion}"
