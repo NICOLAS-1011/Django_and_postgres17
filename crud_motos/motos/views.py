@@ -234,23 +234,39 @@ def registrar_venta(request):
         })
 
 def eliminar_venta(request, pk):
-    try:
-        with connection.cursor() as cursor:
-            cursor.execute("CALL eliminar_venta(%s)", [pk])
-        return redirect('venta/confirmar_eliminar.html')
-    except DatabaseError as e:
-        print(f"Error al eliminar la venta con ID {pk}: {e}")
-        return redirect('lista_ventas')
+    venta = get_object_or_404(Venta, pk=pk)
+
+    if request.method == 'POST':
+        try:
+            with connection.cursor() as cursor:
+                cursor.execute("CALL eliminar_venta(%s)", [pk])
+            return redirect('lista_ventas')
+        except DatabaseError as e:
+            print(f"Error al eliminar la venta con ID {pk}: {e}")
+            return redirect('lista_ventas')
+
+    return render(request, 'venta/confirmar_eliminar.html', {'venta': venta})
 
 
-def actualizar_cliente(cliente_id, nombre, apellido, cedula, telefono, correo, direccion):
-        
-    try:    
-        with connection.cursor() as cursor:
-            cursor.execute("""
-                CALL actualizar_cliente(%s, %s, %s, %s, %s, %s, %s);
-            """, [cliente_id, nombre, apellido, cedula, telefono, correo, direccion])
-    except DatabaseError as e:
-            print("Error al ejecutar procedimiento:", e)
+def actualizar_cliente(request, id):
+    cliente = get_object_or_404(Cliente, pk=id)
 
+    if request.method == 'POST':
+        nombre = request.POST.get('nombre')
+        apellido = request.POST.get('apellido')
+        cedula = request.POST.get('cedula')
+        telefono = request.POST.get('telefono')
+        correo = request.POST.get('correo')
+        direccion = request.POST.get('direccion')
 
+        try:
+            with connection.cursor() as cursor:
+                cursor.execute("""
+                    CALL actualizar_cliente(%s, %s, %s, %s, %s, %s, %s);
+                """, [id, nombre, apellido, cedula, telefono, correo, direccion])
+            return redirect('listar_clientes')
+        except DatabaseError as e:
+            print(f"Error al actualizar el cliente con ID {id}: {e}")
+            return redirect('listar_clientes')
+
+    return render(request, 'cliente/editar_cliente.html', {'cliente': cliente})

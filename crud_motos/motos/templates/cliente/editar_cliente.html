@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Editar Cliente</h1>
+    <form method="post">
+        {% csrf_token %}
+        <label>Nombre:</label><input type="text" name="nombre" value="{{ cliente.nombre }}"><br>
+        <label>Apellido:</label><input type="text" name="apellido" value="{{ cliente.apellido }}"><br>
+        <label>Cédula:</label><input type="text" name="cedula" value="{{ cliente.cedula }}"><br>
+        <label>Teléfono:</label><input type="text" name="telefono" value="{{ cliente.telefono }}"><br>
+        <label>Correo:</label><input type="email" name="correo" value="{{ cliente.correo }}"><br>
+        <label>Dirección:</label><input type="text" name="direccion" value="{{ cliente.direccion }}"><br>
+
+        <button type="submit">Guardar Cambios</button>
+        <a href="{% url 'listar_clientes' %}">Cancelar</a>
+    </form>
+
+</body>
+</html>
