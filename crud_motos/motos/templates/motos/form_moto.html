@@ -1,7 +1,78 @@
-<h1>{{ accion }} Moto</h1>
-<form method="post">
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulario de Motos</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+    <header>
+        <h1>CONCENSIONARIO NILU S.A.S</h1>
+    </header>
+
+    <nav>
+        <a href="{% url 'listar_clientes' %}">Clientes</a>
+        <a href="{% url 'lista_empleado' %}">Empleados</a>
+        <a href="{% url 'lista_motos' %}">Motos</a>
+        <a href="{% url 'listar_proveedores' %}">Proveedores</a>
+        <a href="{% url 'lista_ventas' %}">Ventas</a>
+    </nav>
+
+    <header>
+        <h1>{% if form.instance.pk %}Editar{% else %}Nueva{% endif %} Moto</h1>
+    </header>
+
+    <div class="form-container">
+        <form method="post">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">{{ accion }}</button>
+
+    <div class="form-row">
+        <label for="{{ form.nombre.id_for_label }}">Marca:</label>
+        {{ form.marca }}
+    </div>
+
+    <div class="form-row">
+        <label for="{{ form.apellido.id_for_label }}">Modelo:</label>
+        {{ form.modelo }}
+    </div>
+
+    <div class="form-row">
+        <label for="{{ form.cedula.id_for_label }}">Cilindraje:</label>
+        {{ form.cilindraje }}
+    </div>
+
+    <div class="form-row">
+        <label for="{{ form.telefono.id_for_label }}">Color:</label>
+        {{ form.color }}
+    </div>
+
+    <div class="form-row">
+        <label for="{{ form.correo.id_for_label }}">Precio:</label>
+        {{ form.precio }}
+    </div>
+
+    <div class="form-row">
+        <label for="{{ form.direccion.id_for_label }}">Estado:</label>
+        {{ form.estado }}
+    </div>
+
+    <div class="form-row">
+        <label for="{{ form.direccion.id_for_label }}">Proveedor:</label>
+        {{ form.proveedor }}
+    </div>
+
+    <div class="form-buttons" style="text-align: center; margin-top: 20px;">
+        <button type="submit">{% if form.instance.pk %}Actualizar{% else %}Crear{% endif %}</button>
+        <a href="{% url 'lista_motos' %}" class="btn-cancelar">Cancelar</a>
+    </div>
 </form>
-<a href="{% url 'lista_motos' %}">Volver</a>
+
+    </div>
+
+    <footer>
+        <p>2025 Proyecto de Motos. Todos los derechos reservados. Nicolas Espitia - Luna Delgado</p>
+    </footer>
+</body>
+</html>

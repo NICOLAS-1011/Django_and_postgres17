@@ -1,22 +1,71 @@
+
+
+{% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Motos | Concesionario</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
-    <h1>Listado de Motos</h1>
-    <a href="{% url 'crear_moto' %}">Agregar nueva moto</a>
-    <ul>
-        {% for moto in motos %}
-        <li>
-            {{ moto }} |
-            <a href="{% url 'editar_moto' moto.id %}">Editar</a> |
-            <a href="{% url 'eliminar_moto' moto.id %}">Eliminar</a>
-        </li>
-        {% endfor %}
-    </ul>
+
+    <header>
+        <h1>CONCENSIONARIO NILU S.A.S</h1>
+    </header>
+
+    <nav>
+        <a href="{% url 'listar_clientes' %}">Clientes</a>
+        <a href="{% url 'lista_empleado' %}">Empleados</a>
+        <a href="{% url 'lista_motos' %}">Motos</a>
+        <a href="{% url 'listar_proveedores' %}">Proveedores</a>
+        <a href="{% url 'lista_ventas' %}">Ventas</a>
+    </nav>
+
+    <header>
+        <h1>MOTOS</h1>
+    </header>
+
+    <div class="form-container" style="margin-bottom: 20px; text-align: center;">
+        <a href="{% url 'crear_moto' %}" class="btn-nuevo">➕ Nuevo moto</a>
+    </div>
+
+    <table class="tabla-clientes" border="1">
+        <thead>
+            <tr>
+                <th>Marca</th>
+                <th>Modelo</th>
+                <th>cilindraje</th>
+                <th>Color</th>
+                <th>Precio</th>
+                <th>Estado</th>
+                <th>Proveedor</th>
+            </tr>
+            {% for moto in motos %}
+            <tr>
+                <td>{{ moto.marca }}</td>
+                <td>{{ moto.modelo }}</td>
+                <td>{{ moto.cilindraje }}</td>
+                <td>{{ moto.color }}</td>
+                <td>{{ moto.precio }}</td>
+                <td>{{ moto.estado }}</td>
+                <td>{{ moto.proveedor }}</td>
+                <td>
+                    <a href="{% url 'editar_moto' moto.pk %}">Editar</a>
+                    <a href="{% url 'eliminar_moto' moto.pk %}" onclick="return confirm('¿Estás seguro de eliminar esta moto?')">Eliminar</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="7" style="text-align: center;">No hay motos registrados.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <footer>
+        <p>2025 Proyecto de Motos. Todos los derechos reservados. Nicolas Espitia - Luna Delgado</p>
+    </footer>
 
 </body>
 </html>

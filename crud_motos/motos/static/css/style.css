@@ -1,0 +1,119 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #FFFFFF;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+header {
+    background-color: #191970;
+    color: #FFFFFF;
+    padding: 20px 0;
+}
+
+h1 {
+    margin: 0;
+}
+
+nav {
+    margin: 30px auto;
+}
+
+nav a {
+    display: inline-block;
+    margin: 15px;
+    padding: 12px 24px;
+    background-color: #808080;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: background-color 0.3s;
+}
+
+nav a:hover {
+    background-color: #808080;
+}
+
+footer {
+    margin-top: 50px;
+    color: #777;
+}
+ table {
+            width: 90%;
+            margin: 0 auto 40px auto;
+            border-collapse: collapse;
+            background-color: #fff;
+        }
+.form-container {
+    width: 60%;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+form label {
+    margin: 10px 0 5px;
+    font-weight: bold;
+}
+
+form input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.form-buttons {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+button[type="submit"] {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    
+}
+
+.btn-cancelar {
+    padding: 10px 20px;
+    background-color: #e53935;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    text-align: center;
+}
+
+.form-container-horizontal {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.form-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    gap: 20px;
+}
+
+.form-row label {
+    width: 100px;
+    font-weight: bold;
+}
+
+.form-row input {
+    flex: 1;
+    padding: 3px;
+    font-size: 0.9rem;  
+}

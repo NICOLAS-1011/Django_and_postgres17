@@ -1,27 +1,71 @@
-<h1>Lista de Ventas</h1>
-<a href="{% url 'crear_venta' %}">Registrar Venta</a>
-<table>
-    <tr>
-        <th>Fecha</th>
-        <th>Cliente</th>
-        <th>Empleado</th>
-        <th>Moto</th>
-        <th>Valor</th>
-        <th>Placa</th>
-        <th>Acciones</th>
-    </tr>
-    {% for venta in ventas %}
-    <tr>
-        <td>{{ venta.fecha_venta }}</td>
-        <td>{{ venta.cliente }}</td>
-        <td>{{ venta.empleado }}</td>
-        <td>{{ venta.moto }}</td>
-        <td>${{ venta.valor_total }}</td>
-        <td>${{ venta.placa }}</td>
-        <td>
-            <a href="{% url 'editar_venta' venta.pk %}">Editar</a>
-            <a href="{% url 'eliminar_venta' venta.pk %}">Eliminar</a>
-        </td>
-    </tr>
-    {% endfor %}
-</table>
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Ventas | Concesionario</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+    <header>
+        <h1>CONCENSIONARIO NILU S.A.S</h1>
+    </header>
+
+    <nav>
+        <a href="{% url 'listar_clientes' %}">Clientes</a>
+        <a href="{% url 'lista_empleado' %}">Empleados</a>
+        <a href="{% url 'lista_motos' %}">Motos</a>
+        <a href="{% url 'listar_proveedores' %}">Proveedores</a>
+        <a href="{% url 'lista_ventas' %}">Ventas</a>
+    </nav>
+
+    <header>
+        <h1>VENTAS</h1>
+    </header>
+
+    <div class="form-container" style="margin-bottom: 20px; text-align: center;">
+        <a href="{% url 'crear_venta' %}" class="btn-nuevo">➕ Nueva Venta</a>
+    </div>
+
+    <table class="tabla-clientes" border="1">
+        <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Cliente</th>
+                <th>Empleado</th>
+                <th>Moto</th>
+                <th>Forma de Pago</th>
+                <th>Valor Total</th>
+                <th>Placa</th>
+                <th>Acciones</th>
+            </tr>
+            {% for venta in ventas %}
+            <tr>
+                <td>{{ venta.fecha_venta }}</td>
+                <td>{{ venta.cliente }}</td>
+                <td>{{ venta.empleado }}</td>
+                <td>{{ venta.moto }}</td>
+                <td>${{ venta.forma_pago }}</td>
+                <td>${{ venta.valor_total }}</td>
+                <td>${{ venta.placa }}</td>
+                <td>
+                    <a href="{% url 'editar_venta' venta.pk %}">Editar</a>
+                    <a href="{% url 'eliminar_venta' venta.pk %}"onclick="return confirm('¿Estás seguro de eliminar esta venta?')">Eliminar</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="7" style="text-align: center;">No hay ventas registrados.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <footer>
+        <p>2025 Proyecto de Motos. Todos los derechos reservados. Nicolas Espitia - Luna Delgado</p>
+    </footer>
+
+</body>
+</html>
+

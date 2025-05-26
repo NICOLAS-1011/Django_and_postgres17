@@ -1,55 +1,91 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Formulario de Ventas</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
-    <h2>Registrar Venta</h2>
 
-    {% if error %}
-        <p style="color: red;"><strong>Error:</strong> {{ error }}</p>
-    {% endif %}
+    <header>
+        <h1>CONCENSIONARIO NILU S.A.S</h1>
+    </header>
 
+    <nav>
+        <a href="{% url 'listar_clientes' %}">Clientes</a>
+        <a href="{% url 'lista_empleado' %}">Empleados</a>
+        <a href="{% url 'lista_motos' %}">Motos</a>
+        <a href="{% url 'listar_proveedores' %}">Proveedores</a>
+        <a href="{% url 'lista_ventas' %}">Ventas</a>
+    </nav>
 
-    <form method="POST">
-        {% csrf_token %}
+    <header>
+        <h1>Registrar Venta</h1>
+    </header>
 
-        <label for="fecha_venta">Fecha de Venta:</label>
-        <input type="date" name="fecha_venta" required><br>
+    <div class="form-container">
+        {% if error %}
+            <p style="color: red; text-align: center;"><strong>Error:</strong> {{ error }}</p>
+        {% endif %}
 
-        <label for="cliente">Cliente:</label>
-        <select name="cliente" required>
-            {% for cliente in clientes %}
-                <option value="{{ cliente.id }}">{{ cliente.nombre }} {{ cliente.apellido }}</option>
-            {% endfor %}
-        </select><br>
+        <form method="POST">
+            {% csrf_token %}
 
-        <label for="empleado">Empleado:</label>
-        <select name="empleado" required>
-            {% for empleado in empleados %}
-                <option value="{{ empleado.id }}">{{ empleado.nombre }} {{ empleado.apellido }}</option>
-            {% endfor %}
-        </select><br>
+            <div class="form-row">
+                <label for="fecha_venta">Fecha de Venta:</label>
+                <input type="date" name="fecha_venta" required>
+            </div>
 
-        <label for="moto">Moto:</label>
-        <select name="moto" required>
-            {% for moto in motos %}
-                {% if moto.estado == "disponible" %}
-                    <option value="{{ moto.id }}">{{ moto.marca }} {{ moto.cilindraje }} {{ moto.color }} {{ moto.modelo }}</option>
-                {% endif %}
-            {% endfor %}
-        </select><br>
+            <div class="form-row">
+                <label for="cliente">Cliente:</label>
+                <select name="cliente" required>
+                    {% for cliente in clientes %}
+                        <option value="{{ cliente.id }}">{{ cliente.nombre }} {{ cliente.apellido }}</option>
+                    {% endfor %}
+                </select>
+            </div>
 
-        <label for="forma_pago">Forma de Pago:</label>
-        <input type="text" name="forma_pago" required><br>
+            <div class="form-row">
+                <label for="empleado">Empleado:</label>
+                <select name="empleado" required>
+                    {% for empleado in empleados %}
+                        <option value="{{ empleado.id }}">{{ empleado.nombre }} {{ empleado.apellido }}</option>
+                    {% endfor %}
+                </select>
+            </div>
 
-        <label for="valor_total">Valor Total:</label>
-        <input type="number" step="0.01" name="valor_total" required><br><br>
+            <div class="form-row">
+                <label for="moto">Moto:</label>
+                <select name="moto" required>
+                    {% for moto in motos %}
+                        {% if moto.estado == "disponible" %}
+                            <option value="{{ moto.id }}">{{ moto.marca }} {{ moto.cilindraje }} {{ moto.color }} {{ moto.modelo }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
 
-        <button type="submit">Registrar Venta</button>
-    </form>
+            <div class="form-row">
+                <label for="forma_pago">Forma de Pago:</label>
+                <input type="text" name="forma_pago" required>
+            </div>
+
+            <div class="form-row">
+                <label for="valor_total">Valor Total:</label>
+                <input type="number" step="0.01" name="valor_total" required>
+            </div>
+
+            <div class="form-buttons" style="text-align: center; margin-top: 20px;">
+                <button type="submit">Registrar Venta</button>
+                <a href="{% url 'lista_ventas' %}" class="btn-cancelar">Cancelar</a>
+            </div>
+        </form>
+    </div>
+
+    <footer>
+        <p>2025 Proyecto de Motos. Todos los derechos reservados. Nicolas Espitia - Luna Delgado</p>
+    </footer>
 
 </body>
 </html>

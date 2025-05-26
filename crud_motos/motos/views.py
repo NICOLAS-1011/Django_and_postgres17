@@ -13,6 +13,9 @@ from .forms import EmpleadoForm
 from .forms import VentaForm
 
 
+def index(request):
+    return render(request, 'indice/principal.html')
+
 #MOTOS 
 
 def lista_motos(request):
@@ -41,12 +44,10 @@ def editar_moto(request, id):
     return render(request, 'motos/form_moto.html', {'form': form, 'accion': 'Editar'})
 
 def eliminar_moto(request, id):
-    moto = get_object_or_404(Moto, id=id)
-    if request.method == 'POST':
-        moto.delete()
-        return redirect('lista_motos')
-    return render(request, 'motos/confirmar_eliminar.html', {'moto': moto})
-
+    moto = Moto.objects.get(id=id)
+    moto.delete()
+    return redirect('lista_motos')
+    
 
 #PROVEEDORES
 
@@ -79,11 +80,11 @@ def editar_proveedor(request, id):
 
 
 def eliminar_proveedor(request, id):
-    proveedor = get_object_or_404(Proveedor, pk=id)
-    if request.method == 'POST':
-        proveedor.delete()
-        return redirect('listar_proveedores')
-    return render(request, 'proveedores/confirmar_eliminar.html', {'proveedor': proveedor})
+    proveedor = Proveedor.objects.get(id=id)
+    proveedor.delete()
+    return redirect('listar_proveedores')
+    
+
 
 
 #CLIENTES
@@ -145,18 +146,17 @@ def editar_empleado(request, pk):
         form = EmpleadoForm(request.POST, instance=empleado)
         if form.is_valid():
             form.save()
-            return redirect('lista_empleados')
+            return redirect('lista_empleado')
     else:
         form = EmpleadoForm(instance=empleado)
     return render(request, 'empleado/formulario.html', {'form': form})
 
 def eliminar_empleado(request, pk):
-    empleado = get_object_or_404(Empleado, pk=pk)
-    if request.method == 'POST':
-        empleado.delete()
-        return redirect('lista_empleados')
-    return render(request, 'empleado/confirmar_eliminar.html', {'empleado': empleado})
-
+    empleado = Empleado.objects.get(pk=pk)
+    empleado.delete()
+    return redirect('lista_empleado')
+  
+      
 
 #VENTAS
 
@@ -234,7 +234,7 @@ def registrar_venta(request):
         })
 
 def eliminar_venta(request, pk):
-    venta = get_object_or_404(Venta, pk=pk)
+    venta = Venta.objects.get(pk=pk)
 
     if request.method == 'POST':
         try:
@@ -244,9 +244,10 @@ def eliminar_venta(request, pk):
         except DatabaseError as e:
             print(f"Error al eliminar la venta con ID {pk}: {e}")
             return redirect('lista_ventas')
+    #return render(request, 'lista_ventas', {'venta': venta})
+    return redirect('lista_ventas')
 
-    return render(request, 'venta/confirmar_eliminar.html', {'venta': venta})
-
+  
 
 def actualizar_cliente(request, id):
     cliente = get_object_or_404(Cliente, pk=id)

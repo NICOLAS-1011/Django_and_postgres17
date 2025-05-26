@@ -1,7 +1,68 @@
-<h1>{% if form.instance.pk %}Editar{% else %}Crear{% endif %} Proveedor</h1>
-<form method="post">
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulario de Proveedor</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+    <header>
+        <h1>CONCENSIONARIO NILU S.A.S</h1>
+    </header>
+
+    <nav>
+        <a href="{% url 'listar_clientes' %}">Clientes</a>
+        <a href="{% url 'lista_empleado' %}">Empleados</a>
+        <a href="{% url 'lista_motos' %}">Motos</a>
+        <a href="{% url 'listar_proveedores' %}">Proveedores</a>
+        <a href="{% url 'lista_ventas' %}">Ventas</a>
+    </nav>
+
+    <header>
+        <h1>{% if form.instance.pk %}Editar{% else %}Nuevo{% endif %} Proveedor</h1>
+    </header>
+
+    <div class="form-container">
+        <form method="post">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Guardar</button>
+
+    <div class="form-row">
+        <label for="{{ form.nombre.id_for_label }}">Empresa:</label>
+        {{ form.nombre_empresa }}
+    </div>
+
+    <div class="form-row">
+        <label for="{{ form.apellido.id_for_label }}">Contacto:</label>
+        {{ form.contacto }}
+    </div>
+
+    <div class="form-row">
+        <label for="{{ form.cedula.id_for_label }}">Teléfono:</label>
+        {{ form.telefono }}
+    </div>
+
+    <div class="form-row">
+        <label for="{{ form.telefono.id_for_label }}">Correo:</label>
+        {{ form.correo }}
+    </div>
+
+    <div class="form-row">
+        <label for="{{ form.correo.id_for_label }}">Dirección:</label>
+        {{ form.direccion }}
+    </div>
+
+    <div class="form-buttons" style="text-align: center; margin-top: 20px;">
+        <button type="submit">{% if form.instance.pk %}Actualizar{% else %}Crear{% endif %}</button>
+        <a href="{% url 'listar_proveedores' %}" class="btn-cancelar">Cancelar</a>
+    </div>
 </form>
-<a href="{% url 'listar_proveedores' %}">Volver</a>
+
+    </div>
+
+    <footer>
+        <p>2025 Proyecto de Motos. Todos los derechos reservados. Nicolas Espitia - Luna Delgado</p>
+    </footer>
+</body>
+</html>

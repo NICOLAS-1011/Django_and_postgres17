@@ -1,25 +1,66 @@
-<h1>Lista de Proveedores</h1>
-<a href="{% url 'crear_proveedor' %}">Nuevo Proveedor</a>
-<table border="1">
-    <tr>
-        <th>Empresa</th>
-        <th>Contacto</th>
-        <th>Teléfono</th>
-        <th>Correo</th>
-        <th>Dirección</th>
-        <th>Acciones</th>
-    </tr>
-    {% for proveedor in proveedores %}
-    <tr>
-        <td>{{ proveedor.nombre_empresa }}</td>
-        <td>{{ proveedor.contacto }}</td>
-        <td>{{ proveedor.telefono }}</td>
-        <td>{{ proveedor.correo }}</td>
-        <td>{{ proveedor.direccion }}</td>
-        <td>
-            <a href="{% url 'editar_proveedor' proveedor.id %}">Editar</a> |
-            <a href="{% url 'eliminar_proveedor' proveedor.id %}">Eliminar</a>
-        </td>
-    </tr>
-    {% endfor %}
-</table>
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Proveedores | Concesionario</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+    <header>
+        <h1>CONCENSIONARIO NILU S.A.S</h1>
+    </header>
+
+    <nav>
+        <a href="{% url 'listar_clientes' %}">Clientes</a>
+        <a href="{% url 'lista_empleado' %}">Empleados</a>
+        <a href="{% url 'lista_motos' %}">Motos</a>
+        <a href="{% url 'listar_proveedores' %}">Proveedores</a>
+        <a href="{% url 'lista_ventas' %}">Ventas</a>
+    </nav>
+
+    <header>
+        <h1>PROVEEDORES</h1>
+    </header>
+
+    <div class="form-container" style="margin-bottom: 20px; text-align: center;">
+        <a href="{% url 'crear_proveedor' %}" class="btn-nuevo">➕ Nuevo proveedor</a>
+    </div>
+
+    <table class="tabla-clientes" border="1">
+        <thead>
+            <tr>
+                <th>Empresa</th>
+                <th>Contacto</th>
+                <th>Teléfono</th>
+                <th>Correo</th>
+                <th>Dirección</th>
+                <th>Acciones</th>
+            </tr>
+            {% for proveedor in proveedores %}
+            <tr>
+                <td>{{ proveedor.nombre_empresa }}</td>
+                <td>{{ proveedor.contacto }}</td>
+                <td>{{ proveedor.telefono }}</td>
+                <td>{{ proveedor.correo }}</td>
+                <td>{{ proveedor.direccion }}</td>
+                <td>
+                    <a href="{% url 'editar_proveedor' proveedor.id %}">Editar</a>
+                    <a href="{% url 'eliminar_proveedor' proveedor.id %}"onclick="return confirm('¿Estás seguro de eliminar este proveedor?')">Eliminar</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="7" style="text-align: center;">No hay proveedores registrados.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <footer>
+        <p>2025 Proyecto de Motos. Todos los derechos reservados. Nicolas Espitia - Luna Delgado</p>
+    </footer>
+
+</body>
+</html>
