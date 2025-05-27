@@ -216,7 +216,7 @@ def registrar_venta(request):
             clientes = Cliente.objects.all()
             empleados = Empleado.objects.all()
             motos = Moto.objects.filter(estado__iexact='disponible')
-            return render(request, 'ventas/registrar_venta.html', {
+            return render(request, 'venta/registrar_venta.html', {
                 'clientes': clientes,
                 'empleados': empleados,
                 'motos': motos,
@@ -233,19 +233,19 @@ def registrar_venta(request):
             'motos': motos
         })
 
-def eliminar_venta(request, pk):
-    venta = Venta.objects.get(pk=pk)
 
-    if request.method == 'POST':
-        try:
-            with connection.cursor() as cursor:
-                cursor.execute("CALL eliminar_venta(%s)", [pk])
-            return redirect('lista_ventas')
-        except DatabaseError as e:
-            print(f"Error al eliminar la venta con ID {pk}: {e}")
-            return redirect('lista_ventas')
-    #return render(request, 'lista_ventas', {'venta': venta})
-    return redirect('lista_ventas')
+def eliminar_venta(request, pk):
+    try:
+        # Validamos que exista la venta
+        venta = get_object_or_404(Venta, pk=pk)
+
+        with connection.cursor() as cursor:
+            cursor.execute("CALL eliminar_venta(%s)", [pk])
+        return redirect('lista_ventas')
+
+    except DatabaseError as e:
+        print(f"Error al eliminar la venta con ID {pk}: {e}")
+        return redirect('lista_ventas')
 
   
 
